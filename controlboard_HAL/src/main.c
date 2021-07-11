@@ -100,19 +100,32 @@ int main(void)
   MX_ADC1_Init();
   MX_I2C2_Init();
   MX_TIM1_Init();
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  // Calibrate The ADC On Power-Up For Better Accuracy
+  HAL_ADCEx_Calibration_Start(&hadc1);
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
   uint8_t MSG[35] = {'\0'};
   uint8_t X = 0;
-
+  uint16_t AD_RES = 0;
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-    sprintf(MSG, "Hello Dudes! Tracing X = %d\r\n", X);
+
+    // Start ADC Conversion
+    HAL_ADC_Start(&hadc1);
+    // Poll ADC1 Perihperal & TimeOut = 1mSec
+    HAL_ADC_PollForConversion(&hadc1, 1);
+    // Read The ADC Conversion Result & Map It To PWM DutyCycle
+    AD_RES = HAL_ADC_GetValue(&hadc1);
+    TIM2->CCR1 = (AD_RES << 4);
+    HAL_Delay(1);
+
+    sprintf(MSG, "Hello Dudes! Tracing X = %d\r\n", AD_RES);
     HAL_UART_Transmit(&huart1, MSG, sizeof(MSG), 100);
     HAL_Delay(500);
     X++;
