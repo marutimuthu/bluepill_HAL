@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "servo_cfg.h": "c",
+        "servo.h": "c"
+    }
+}
