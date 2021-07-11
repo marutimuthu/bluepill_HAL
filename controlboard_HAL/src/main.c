@@ -19,28 +19,29 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <stdio.h>
 
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
+    /* Private includes ----------------------------------------------------------*/
+    /* USER CODE BEGIN Includes */
 
-/* USER CODE END Includes */
+    /* USER CODE END Includes */
 
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
+    /* Private typedef -----------------------------------------------------------*/
+    /* USER CODE BEGIN PTD */
 
-/* USER CODE END PTD */
+    /* USER CODE END PTD */
 
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-/* USER CODE END PD */
+    /* Private define ------------------------------------------------------------*/
+    /* USER CODE BEGIN PD */
+    /* USER CODE END PD */
 
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
+    /* Private macro -------------------------------------------------------------*/
+    /* USER CODE BEGIN PM */
 
-/* USER CODE END PM */
+    /* USER CODE END PM */
 
-/* Private variables ---------------------------------------------------------*/
-ADC_HandleTypeDef hadc1;
+    /* Private variables ---------------------------------------------------------*/
+    ADC_HandleTypeDef hadc1;
 
 I2C_HandleTypeDef hi2c2;
 
@@ -103,23 +104,18 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
+  uint8_t MSG[35] = {'\0'};
+  uint8_t X = 0;
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-    // IF Button Is Pressed
-    if (HAL_GPIO_ReadPin(GPIOB, DI_1_Pin))
-    {
-      // Set The LED ON!
-      HAL_GPIO_WritePin(GPIOC, LED1_Pin, GPIO_PIN_SET);
-    }
-    else
-    {
-      // Else .. Turn LED OFF!
-      HAL_GPIO_WritePin(GPIOC, LED1_Pin, GPIO_PIN_RESET);
-    }
+    sprintf(MSG, "Hello Dudes! Tracing X = %d\r\n", X);
+    HAL_UART_Transmit(&huart1, MSG, sizeof(MSG), 100);
+    HAL_Delay(500);
+    X++;
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
