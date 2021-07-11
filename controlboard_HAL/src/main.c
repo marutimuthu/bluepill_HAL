@@ -109,12 +109,17 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    HAL_GPIO_TogglePin(GPIOC, LED3_Pin);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(GPIOC, LED2_Pin);
-    HAL_Delay(200);
-    HAL_GPIO_TogglePin(GPIOC, LED1_Pin);
-    HAL_Delay(300);
+    // IF Button Is Pressed
+    if (HAL_GPIO_ReadPin(GPIOB, DI_1_Pin))
+    {
+      // Set The LED ON!
+      HAL_GPIO_WritePin(GPIOC, LED1_Pin, GPIO_PIN_SET);
+    }
+    else
+    {
+      // Else .. Turn LED OFF!
+      HAL_GPIO_WritePin(GPIOC, LED1_Pin, GPIO_PIN_RESET);
+    }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -368,7 +373,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, LED3_Pin|LED2_Pin|LED1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, LED3_Pin|LED2_Pin|LED1_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_4|DO_0_Pin
